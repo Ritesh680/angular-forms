@@ -1,0 +1,22 @@
+<div class="" [ngClass]="isTableSelect ? '' : 'form-group'">
+  <app-label
+    *ngIf="label"
+    [label]="label"
+    [htmlFor]="id"
+    extraStyles="active"
+  ></app-label>
+
+  <ng-select
+    [items]="options"
+    bindLabel="label"
+    bindValue="value"
+    placeholder="Select"
+    [(ngModel)]="value"
+    [ngClass]="extraStyles"
+    (change)="onInputChange($event)"
+    (blur)="onBlur()"
+    [searchable]="searchable"
+  >
+    <!-- appendTo="body" -->
+  </ng-select>
+</div>

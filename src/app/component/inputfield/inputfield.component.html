@@ -1,0 +1,19 @@
+<div class="form-group" [ngClass]="extraClasses">
+  <div class="input-group">
+    <app-label
+      *ngIf="label"
+      [label]="label"
+      [htmlFor]="id"
+      extraStyles="active"
+    ></app-label>
+    <input
+      type="text"
+      [id]="id"
+      class="form-control border rounded padding-sm"
+      [value]="value"
+      (blur)="onBlur()"
+      (input)="onInputChange($event)"
+      (focus)="addActiveAttribute()"
+    />
+  </div>
+</div>

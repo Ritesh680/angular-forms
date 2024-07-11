@@ -18,10 +18,13 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"],
+    "paths": {
+      "@constants": ["./src/app/constants/constants.ts"],
+      "@components/*": ["./src/app/component/*"],
+      "@interfaces": ["./src/app/interfaces/interface.ts"],
+      "@icons/*": ["./src/assets/icons/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

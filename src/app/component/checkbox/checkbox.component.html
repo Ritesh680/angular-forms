@@ -1,0 +1,21 @@
+<div *ngIf="label" class="form-check">
+  <input
+    id="checkbox1"
+    type="checkbox"
+    [checked]="value"
+    (blur)="onBlur()"
+    (input)="onInputChange($event)"
+  />
+  <label *ngIf="label" for="checkbox1" class="text-primary">{{ label }}</label>
+</div>
+
+<input
+  *ngIf="!label"
+  type="checkbox"
+  name=""
+  id=""
+  class="form-check-input"
+  [checked]="value"
+  (blur)="onBlur()"
+  (input)="onInputChange($event)"
+/>

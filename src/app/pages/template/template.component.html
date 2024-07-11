@@ -1,0 +1,202 @@
+<form class="d-flex flex-column" [formGroup]="form">
+  <app-card>
+    <div>
+      <span class="text-success fs-4">Select Module</span>
+
+      <app-select
+        [options]="modules"
+        [formControlName]="'module'"
+        extraStyles="col-sm-4"
+      ></app-select>
+    </div>
+    <div formArrayName="sections" class="d-flex flex-column gap-4">
+      <app-card
+        *ngFor="let section of sectionArray.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="card-title">
+          <span class="text-success fs-4">Add Sections for module</span>
+        </div>
+
+        <div class="pt-4">
+          <div class="row">
+            <div class="col-sm">
+              <app-inputfield
+                formControlName="title"
+                label="Title"
+              ></app-inputfield>
+            </div>
+            <div class="col-sm">
+              <app-inputfield
+                formControlName="name"
+                label="Name"
+              ></app-inputfield>
+            </div>
+            <div class="col-sm">
+              <app-inputfield
+                formControlName="description"
+                label="Description"
+              ></app-inputfield>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <app-inputfield
+                formControlName="showCondition"
+                label="ShowCondition"
+              ></app-inputfield>
+            </div>
+            <div class="col-sm">
+              <app-select
+                [options]="options"
+                formControlName="type"
+                [label]="'Type'"
+              ></app-select>
+            </div>
+            <div class="col-sm">
+              <app-select
+                formControlName="subsections"
+                label="Subsection"
+                [options]="options"
+              ></app-select>
+            </div>
+          </div>
+
+          <div class="row">
+            <app-label label="Fields"></app-label>
+            <div [formArrayName]="'fields'">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">SN</th>
+                      <th scope="col" *ngFor="let header of fieldsTableHeaders">
+                        {{ header.headerLabel }}
+                      </th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let field of getFields(section).controls;
+                        let j = index
+                      "
+                      [formGroupName]="j"
+                    >
+                      <th scope="row">{{ j + 1 }}</th>
+                      <td
+                        *ngFor="
+                          let header of fieldsTableHeaders;
+                          let j = index;
+                          let last = last
+                        "
+                        [ngClass]="
+                          (header.inputType === 'checkbox'
+                            ? 'text-center'
+                            : 'text-left') + (header ? ' ' + header : '')
+                        "
+                      >
+                        <ng-container *ngIf="header.key !== 'actions'">
+                          <app-table-input-field
+                            *ngIf="
+                              !header.inputType || header.inputType === 'text'
+                            "
+                            [formControlName]="header.key"
+                          ></app-table-input-field>
+
+                          <app-checkbox
+                            *ngIf="header.inputType === 'checkbox'"
+                            [formControlName]="header.key"
+                          ></app-checkbox>
+
+                          <app-select
+                            *ngIf="
+                              header.inputType === 'select' &&
+                              header.selectOptions?.length
+                            "
+                            [options]="header.selectOptions!"
+                            [formControlName]="header.key"
+                            [isTableSelect]="true"
+                          ></app-select>
+
+                          <app-button
+                            *ngIf="showModalFor.includes(header.key)"
+                            intent="secondaryOutline"
+                            size="small"
+                            [label]="'Add ' + header.headerLabel"
+                            type="button"
+                            (buttonClick)="openModal(i, header.key)"
+                          ></app-button>
+
+                          <ng-container *ngIf="isModalOpenFor(i, header.key)">
+                            <app-modal
+                              [isVisible]="isModalOpenFor(i, header.key)"
+                              modalId="modalId"
+                              modalTitle="Title"
+                              (confirm)="closeModal()"
+                              (cancel)="handleModalCancel()"
+                              [size]="
+                                header.inputType === 'others' ? 'xl' : 'lg'
+                              "
+                            >
+                              <app-textarea
+                                *ngIf="header.inputType === 'textarea'"
+                                label="Add {{ header.key.toUpperCase() }}"
+                                [formControlName]="header.key"
+                              ></app-textarea>
+                            </app-modal>
+                          </ng-container>
+                        </ng-container>
+                      </td>
+
+                      <td>
+                        <app-button
+                          size="small"
+                          intent="dangerOutline"
+                          [label]="'Delete'"
+                          (buttonClick)="deleteRow(i, j)"
+                          [disabled]="getFields(section).length === 1"
+                        ></app-button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex p-2">
+                  <app-button
+                    (click)="addRow(i)"
+                    label="Add New Field"
+                    intent="primaryOutline"
+                    size="small"
+                  ></app-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+
+    <div class="my-2">
+      <app-button
+        label="Add New Section"
+        intent="primary"
+        (buttonClick)="addSection()"
+      ></app-button>
+    </div>
+  </app-card>
+</form>
+
+<div class="steppers">
+  <nav class="steppers-nav">
+    <app-button
+      type="button"
+      intent="primaryOutline"
+      label="Submit"
+      size="medium"
+      class=""
+    >
+    </app-button>
+  </nav>
+</div>

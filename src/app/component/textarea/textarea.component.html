@@ -1,0 +1,12 @@
+<div class="form-group" [ngClass]="extraClasses">
+  <app-label *ngIf="label" [label]="label" [htmlFor]="id"></app-label>
+  <textarea
+    class="form-control border"
+    [id]="id"
+    [value]="value"
+    (input)="onInputChange($event)"
+    (blur)="onBlur()"
+    (focus)="addActiveAttribute()"
+    rows="4"
+  ></textarea>
+</div>
