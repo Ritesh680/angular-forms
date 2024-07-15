@@ -1,101 +1,104 @@
-<div class="table-responsive" [formGroup]="tableForm">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col" *ngIf="!noSN">SN</th>
-        <th scope="col" *ngFor="let header of tableHeaders">
-          {{ header.headerLabel }}
-        </th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody [formArrayName]="name">
-      <tr
-        *ngFor="let item of rowsArray.controls; let i = index"
-        [formGroupName]="i"
-      >
-        <th scope="row">{{ +i + 1 }}</th>
-        <td
-          *ngFor="let header of tableHeaders; let j = index; let last = last"
-          [ngClass]="
-            (header.inputType === 'checkbox' ? 'text-center' : 'text-left') +
-            (header ? ' ' + header : '')
-          "
-        >
-          <ng-container *ngIf="header.key !== 'actions'">
-            <app-table-input-field
-              *ngIf="!header.inputType || header.inputType === 'text'"
-              [formControlName]="header.key"
-            ></app-table-input-field>
+<div [formGroup]="formGroup">
+  <div [formArrayName]="name">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">SN</th>
+            <th scope="col" *ngFor="let header of tableHeaders">
+              {{ header.headerLabel }}
+            </th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
 
-            <app-checkbox
-              *ngIf="header.inputType === 'checkbox'"
-              [formControlName]="header.key"
-            ></app-checkbox>
-
-            <app-select
-              *ngIf="
-                header.inputType === 'select' && header.selectOptions?.length
+        <tbody>
+          <tr
+            *ngFor="let field of allFields; let i = index"
+            [formGroupName]="i"
+          >
+            <th scope="row">{{ i + 1 }}</th>
+            <td
+              *ngFor="
+                let header of tableHeaders;
+                let j = index;
+                let last = last
               "
-              [options]="header.selectOptions!"
-              [formControlName]="header.key"
-              [isTableSelect]="true"
-            ></app-select>
-
-            <app-button
-              *ngIf="showModalFor.includes(header.key)"
-              size="small"
-              [label]="'Add ' + header.headerLabel"
-              type="button"
-              (buttonClick)="openModal(i, header.key)"
-            ></app-button>
-
-            <ng-container *ngIf="isModalOpenFor(i, header.key)">
-              <app-modal
-                [isVisible]="isModalOpenFor(i, header.key)"
-                modalId="modalId"
-                modalTitle="Title"
-                (confirm)="closeModal()"
-                (cancel)="handleModalCancel()"
-                [size]="header.inputType === 'others' ? 'xl' : 'lg'"
-              >
-                <app-textarea
-                  *ngIf="header.inputType === 'textarea'"
-                  label="Add {{ header.key.toUpperCase() }}"
+              [ngClass]="
+                (header.inputType === 'checkbox'
+                  ? 'text-center'
+                  : 'text-left') + (header ? ' ' + header : '')
+              "
+            >
+              <ng-container *ngIf="header.key !== 'actions'">
+                <app-table-input-field
+                  *ngIf="!header.inputType || header.inputType === 'text'"
                   [formControlName]="header.key"
-                ></app-textarea>
+                ></app-table-input-field>
 
-                <div *ngIf="header.inputType === 'others'">
-                  <div formArrayName="fields">
-                    <app-editable-table
-                      [tableHeaders]="header.tableHeaders || []"
-                      name="section"
-                    ></app-editable-table>
-                  </div>
-                </div>
-              </app-modal>
-            </ng-container>
-          </ng-container>
-        </td>
+                <app-checkbox
+                  *ngIf="header.inputType === 'checkbox'"
+                  [formControlName]="header.key"
+                ></app-checkbox>
 
-        <td>
-          <app-button
-            size="small"
-            intent="dangerOutline"
-            [label]="'Delete'"
-            (buttonClick)="deleteRow(i)"
-            [disabled]="rowsArray.length === 1"
-          ></app-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="d-flex p-2">
-    <app-button
-      (click)="addRow()"
-      label="Add New Field"
-      intent="primaryOutline"
-      size="small"
-    ></app-button>
+                <app-select
+                  *ngIf="
+                    header.inputType === 'select' &&
+                    header.selectOptions?.length
+                  "
+                  [options]="header.selectOptions!"
+                  [formControlName]="header.key"
+                  [isTableSelect]="true"
+                ></app-select>
+
+                <app-button
+                  *ngIf="showModalFor.includes(header.key)"
+                  intent="secondaryOutline"
+                  size="small"
+                  [label]="'Add ' + header.headerLabel"
+                  type="button"
+                  (buttonClick)="openModal(i, header.key)"
+                ></app-button>
+
+                <ng-container *ngIf="isModalOpenFor(i, header.key)">
+                  <app-modal
+                    [isVisible]="isModalOpenFor(i, header.key)"
+                    modalId="modalId"
+                    modalTitle="Title"
+                    (confirm)="closeModal()"
+                    (cancel)="handleModalCancel()"
+                    [size]="header.inputType === 'others' ? 'xl' : 'lg'"
+                  >
+                    <app-textarea
+                      *ngIf="header.inputType === 'textarea'"
+                      label="Add {{ header.key.toUpperCase() }}"
+                      [formControlName]="header.key"
+                    ></app-textarea>
+                  </app-modal>
+                </ng-container>
+              </ng-container>
+            </td>
+
+            <td>
+              <app-button
+                size="small"
+                intent="dangerOutline"
+                [label]="'Delete'"
+                (buttonClick)="deleteRow(i)"
+                [disabled]="rowsArray.length === 1"
+              ></app-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex p-2">
+        <app-button
+          (click)="addRow()"
+          label="Add New Field"
+          intent="primaryOutline"
+          size="small"
+        ></app-button>
+      </div>
+    </div>
   </div>
 </div>

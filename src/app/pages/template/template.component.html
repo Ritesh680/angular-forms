@@ -64,114 +64,13 @@
 
           <div class="row">
             <app-label label="Fields"></app-label>
-            <div [formArrayName]="'fields'">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">SN</th>
-                      <th scope="col" *ngFor="let header of fieldsTableHeaders">
-                        {{ header.headerLabel }}
-                      </th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr
-                      *ngFor="
-                        let field of getFields(section).controls;
-                        let j = index
-                      "
-                      [formGroupName]="j"
-                    >
-                      <th scope="row">{{ j + 1 }}</th>
-                      <td
-                        *ngFor="
-                          let header of fieldsTableHeaders;
-                          let j = index;
-                          let last = last
-                        "
-                        [ngClass]="
-                          (header.inputType === 'checkbox'
-                            ? 'text-center'
-                            : 'text-left') + (header ? ' ' + header : '')
-                        "
-                      >
-                        <ng-container *ngIf="header.key !== 'actions'">
-                          <app-table-input-field
-                            *ngIf="
-                              !header.inputType || header.inputType === 'text'
-                            "
-                            [formControlName]="header.key"
-                          ></app-table-input-field>
-
-                          <app-checkbox
-                            *ngIf="header.inputType === 'checkbox'"
-                            [formControlName]="header.key"
-                          ></app-checkbox>
-
-                          <app-select
-                            *ngIf="
-                              header.inputType === 'select' &&
-                              header.selectOptions?.length
-                            "
-                            [options]="header.selectOptions!"
-                            [formControlName]="header.key"
-                            [isTableSelect]="true"
-                          ></app-select>
-
-                          <app-button
-                            *ngIf="showModalFor.includes(header.key)"
-                            intent="secondaryOutline"
-                            size="small"
-                            [label]="'Add ' + header.headerLabel"
-                            type="button"
-                            (buttonClick)="openModal(i, header.key)"
-                          ></app-button>
-
-                          <ng-container *ngIf="isModalOpenFor(i, header.key)">
-                            <app-modal
-                              [isVisible]="isModalOpenFor(i, header.key)"
-                              modalId="modalId"
-                              modalTitle="Title"
-                              (confirm)="closeModal()"
-                              (cancel)="handleModalCancel()"
-                              [size]="
-                                header.inputType === 'others' ? 'xl' : 'lg'
-                              "
-                            >
-                              <app-textarea
-                                *ngIf="header.inputType === 'textarea'"
-                                label="Add {{ header.key.toUpperCase() }}"
-                                [formControlName]="header.key"
-                              ></app-textarea>
-                            </app-modal>
-                          </ng-container>
-                        </ng-container>
-                      </td>
-
-                      <td>
-                        <app-button
-                          size="small"
-                          intent="dangerOutline"
-                          [label]="'Delete'"
-                          (buttonClick)="deleteRow(i, j)"
-                          [disabled]="getFields(section).length === 1"
-                        ></app-button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="d-flex p-2">
-                  <app-button
-                    (click)="addRow(i)"
-                    label="Add New Field"
-                    intent="primaryOutline"
-                    size="small"
-                  ></app-button>
-                </div>
-              </div>
+            <div formArrayName="fields">
+              <app-editable-table
+                [tableHeaders]="fieldsTableHeaders"
+                [section]="section"
+                name="fields"
+                [isNested]="true"
+              ></app-editable-table>
             </div>
           </div>
         </div>
@@ -196,6 +95,7 @@
       label="Submit"
       size="medium"
       class=""
+      (buttonClick)="onSubmit()"
     >
     </app-button>
   </nav>
