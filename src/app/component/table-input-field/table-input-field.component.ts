@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, forwardRef } from '@angular/core';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
   selector: 'app-table-input-field',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ErrorMessageComponent],
   templateUrl: './table-input-field.component.html',
   styleUrl: './table-input-field.component.css',
   providers: [
@@ -18,6 +23,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class TableInputFieldComponent implements ControlValueAccessor {
   value: string = '';
+  @Input({ required: true }) formControlName!: string;
+  constructor(private controlContainer: ControlContainer) {}
   onChange = (value: string) => {
     const _val = value;
   };
@@ -43,5 +50,32 @@ export class TableInputFieldComponent implements ControlValueAccessor {
 
   onBlur(): void {
     this.onTouched();
+  }
+
+  get formControl() {
+    return this.controlContainer.control?.get(this.formControlName);
+  }
+  isFormDirty() {
+    return (this.formControl?.touched || this.formControl?.dirty) ?? false;
+  }
+
+  isFormInvalid() {
+    return this.formControl?.invalid ?? false;
+  }
+
+  isFormValid() {
+    return this.formControl?.value ? this.formControl?.valid ?? false : false;
+  }
+  shouldShowError(): boolean {
+    return (
+      (this.formControl?.invalid &&
+        (this.formControl?.touched || this.formControl?.dirty)) ??
+      false
+    );
+  }
+
+  get errors() {
+    console.log({ here: '' });
+    return this.formControl?.errors;
   }
 }

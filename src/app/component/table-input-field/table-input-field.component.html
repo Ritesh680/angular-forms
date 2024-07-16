@@ -1,9 +1,23 @@
-<div class="">
+<div class="input-group">
   <input
     type="text"
     class="form-control inputField"
     [value]="value"
     (input)="onInputChange($event)"
     (blur)="onBlur()"
+    [ngClass]="
+      shouldShowError()
+        ? 'invalid-field is-invalid'
+        : isFormValid()
+        ? 'just-validate-success-field'
+        : ''
+    "
   />
+
+  <div *ngIf="shouldShowError()">
+    <app-error-message
+      [errors]="errors!"
+      [shouldShowMessage]="false"
+    ></app-error-message>
+  </div>
 </div>

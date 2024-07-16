@@ -10,6 +10,10 @@ interface SectionFieldWithOptions {
   label: string;
   value: string;
   type: 'select';
+  /**
+   * @description
+   * Select option is required only if the field type is select
+   */
   selectOptions: { label: string; value: string }[];
 }
 

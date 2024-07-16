@@ -1,0 +1,8 @@
+<div *ngIf="shouldShowMessage">
+  <p *ngIf="errors['required']" class="text-danger form-feedback">
+    This field is required
+  </p>
+  <p *ngIf="errors['minlength']" class="text-danger form-feedback">
+    Min length is {{ errors["minlength"].requiredLength }}
+  </p>
+</div>

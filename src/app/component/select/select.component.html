@@ -12,11 +12,16 @@
     bindValue="value"
     placeholder="Select"
     [(ngModel)]="value"
-    [ngClass]="extraStyles"
+    [ngClass]="shouldShowError() ? 'invalid-select-field' : '' + extraStyles"
     (change)="onInputChange($event)"
     (blur)="onBlur()"
     [searchable]="searchable"
+    [disabled]="disabled"
   >
     <!-- appendTo="body" -->
   </ng-select>
+
+  <ng-container *ngIf="shouldShowError()">
+    <app-error-message [errors]="errors!"></app-error-message>
+  </ng-container>
 </div>

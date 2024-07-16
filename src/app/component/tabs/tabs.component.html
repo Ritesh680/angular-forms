@@ -1,0 +1,18 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<ul class="nav nav-tabs nav-tabs-icon-text auto">
+  <li *ngFor="let tab of tabs" class="nav-item">
+    <a
+      class="nav-link"
+      [ngClass]="tab.active ? 'active' : ''"
+      (click)="selectTab(tab)"
+    >
+      {{ tab.tabTitle }}
+    </a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane p-4 fade show active">
+    <ng-content></ng-content>
+  </div>
+</div>

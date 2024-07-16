@@ -1,0 +1,19 @@
+.tab-headers {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  cursor: pointer;
+}
+
+.tab-headers li {
+  padding: 10px;
+  background: #f1f1f1;
+  margin-right: 5px;
+  border-radius: 4px 4px 0 0;
+}
+
+.tab-headers li.active {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-bottom: none;
+}

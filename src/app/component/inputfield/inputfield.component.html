@@ -1,19 +1,24 @@
 <div class="form-group" [ngClass]="extraClasses">
   <div class="input-group">
-    <app-label
-      *ngIf="label"
-      [label]="label"
-      [htmlFor]="id"
-      extraStyles="active"
-    ></app-label>
+    <app-label *ngIf="label" [label]="label" [htmlFor]="id"></app-label>
     <input
       type="text"
       [id]="id"
-      class="form-control border rounded padding-sm"
+      class="border rounded padding-sm form-control"
       [value]="value"
       (blur)="onBlur()"
       (input)="onInputChange($event)"
       (focus)="addActiveAttribute()"
+      [ngClass]="
+        shouldShowError()
+          ? 'invalid-field is-invalid'
+          : isFormValid()
+          ? 'just-validate-success-field'
+          : ''
+      "
     />
+  </div>
+  <div *ngIf="shouldShowError()">
+    <app-error-message [errors]="errors!"></app-error-message>
   </div>
 </div>

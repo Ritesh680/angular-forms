@@ -8,6 +8,7 @@ import {
   FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { ButtonComponent } from '@components/button/button.component';
 import { CheckboxComponent } from '@components/checkbox/checkbox.component';
@@ -59,6 +60,12 @@ export class EditableTableComponent implements OnInit, OnDestroy {
    * Form group for the section containing the table
    */
   @Input() section!: AbstractControl;
+
+  /**
+   * Name of the section containing the table
+   */
+  @Input() sectionName!: string;
+
   /**
    * If the table is nested inside form group then set this to true
    */
@@ -149,7 +156,7 @@ export class EditableTableComponent implements OnInit, OnDestroy {
 
   getSectionFields() {
     return new FormGroup({
-      name: new FormControl(''),
+      name: new FormControl('', [Validators.required]),
       title: new FormControl(''),
       subtitle: new FormControl(''),
       showCondition: new FormControl(''),
@@ -166,14 +173,17 @@ export class EditableTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.isNested && !this.section) {
-      throw new Error('section is required when isNested is true');
+    if (this.isNested && (!this.section || !this.sectionName)) {
+      throw new Error(
+        'section and sectionName is required when isNested is true'
+      );
     }
 
     const fieldGroup = this.getSectionFields();
 
     if (this.isNested) {
-      const sectionsArray = this.tableForm.get('sections') as FormArray;
+      const sectionsArray = this.tableForm.get(this.sectionName) as FormArray;
+      console.log({ sectionsArray });
 
       if (sectionsArray) {
         const sectionIndex = sectionsArray.controls.findIndex(
@@ -195,7 +205,7 @@ export class EditableTableComponent implements OnInit, OnDestroy {
           throw new Error(`Section "${this.section}" not found.`);
         }
       } else {
-        throw new Error('Nested form array "sections" not found.');
+        throw new Error(`Nested form array "${this.section}" not found.`);
       }
       return;
     } else {

@@ -14,6 +14,7 @@ export class ButtonComponent {
   @Input() intent: ButtonVariantProps['intent'];
   @Input() size: ButtonVariantProps['size'];
   @Input() disabled: boolean = false;
+  @Input() type: 'button' | 'submit' = 'button';
   @Output() buttonClick: EventEmitter<Event> = new EventEmitter<Event>();
 
   get computedClasses(): string {

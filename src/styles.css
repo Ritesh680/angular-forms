@@ -7,6 +7,22 @@ body {
   overflow-x: hidden;
 }
 
+/**
+* This field is to style the input field with border red if it is invalid
+*/
+.invalid-field {
+  border: 1px solid red !important;
+  outline: 1px red;
+  outline-style: groove;
+}
+
+:focus:not(.focus--mouse),
+.form-check [type="checkbox"]:focus + label,
+.form-check [type="radio"]:focus + label,
+.toggles label input[type="checkbox"]:focus + .lever {
+  box-shadow: none !important;
+}
+
 .form-control {
   min-height: 1.5rem;
 }
@@ -23,4 +39,17 @@ body {
 
 ::ng-deep .ng-dropdown-panel {
   z-index: 1050; /* Adjust the value as needed */
+}
+.ng-select.ng-select-disabled > .ng-select-container {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #a8a3a3;
+  color: #000;
+  border-color: #ccc;
+}
+.invalid-select-field {
+  border: 1px solid red !important;
+  outline: 1px red;
+  outline-style: groove;
+  border-radius: 4px;
 }

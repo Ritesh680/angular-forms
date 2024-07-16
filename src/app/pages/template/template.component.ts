@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { FIELD_TYPES, MODULES, sectionFields, sections } from '@constants';
 import { DropdownProps } from '@interfaces';
@@ -43,6 +45,9 @@ import { TableInputFieldComponent } from '@components/table-input-field/table-in
   styleUrl: './template.component.css',
 })
 export class TemplateComponent implements OnInit {
+  @Input({ required: true }) moduleName: 'privacy' | 'general' | 'preference' =
+    'general';
+
   modules: DropdownProps[] = [];
   fieldTypes: DropdownProps[] = FIELD_TYPES.map((field) => ({
     label: field,
@@ -56,21 +61,42 @@ export class TemplateComponent implements OnInit {
   modalId: string = '';
 
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      module: '',
+    this.form = this.moduleGroup;
+  }
 
-      sections: this.fb.array([
-        this.fb.group({
-          name: '',
-          title: '',
-          description: '',
-          type: '',
-          subsections: '',
-          showCondition: '',
-          fields: this.fb.array([]),
-        }),
+  get name(): AbstractControl {
+    return this.form.get('module') as AbstractControl;
+  }
+
+  get sectionGroup() {
+    return new FormGroup({
+      name: this.fb.control('', [Validators.required, Validators.minLength(3)]),
+      title: this.fb.control('', [
+        Validators.required,
+        Validators.minLength(5),
       ]),
+      description: this.fb.control('', [Validators.required]),
+      type: this.fb.control('', [Validators.required]),
+      subsections: this.fb.control(''),
+      showCondition: this.fb.control(''),
+      fields: this.fb.array([]),
     });
+  }
+
+  get moduleGroup() {
+    return new FormGroup({
+      module: this.fb.control('', [Validators.required]),
+      sections: this.fb.array([this.sectionGroup]),
+    });
+  }
+
+  get moduleArray() {
+    console.log({ this: this.form.get('modules') });
+    return this.form.get('modules') as FormArray;
+  }
+
+  getSectionArray(module: AbstractControl) {
+    return module.get('sections') as FormArray;
   }
 
   get sectionArray() {
@@ -101,7 +127,15 @@ export class TemplateComponent implements OnInit {
   });
 
   onSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     console.log({ module: this.form.value });
+  }
+
+  addModule() {
+    return this.moduleArray.push(this.moduleGroup);
   }
 
   addSection() {

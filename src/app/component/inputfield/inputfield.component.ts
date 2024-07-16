@@ -1,13 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { LabelComponent } from '../label/label.component';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { getLabelId } from '../../utils/functions';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
   selector: 'app-inputfield',
   standalone: true,
-  imports: [LabelComponent, CommonModule],
+  imports: [LabelComponent, CommonModule, ErrorMessageComponent],
   templateUrl: './inputfield.component.html',
   styleUrl: './inputfield.component.css',
   providers: [
@@ -21,8 +26,11 @@ import { getLabelId } from '../../utils/functions';
 export class InputfieldComponent implements ControlValueAccessor {
   @Input() label: string | undefined;
   @Input() extraClasses?: string = '';
+  @Input({ required: true }) formControlName!: string;
 
   value: string = '';
+
+  constructor(private controlContainer: ControlContainer) {}
 
   onChange = (value: string) => {
     const _val = value;
@@ -70,5 +78,30 @@ export class InputfieldComponent implements ControlValueAccessor {
   onBlur(): void {
     this.onTouched();
     this.removeActiveAttribute();
+  }
+
+  get formControl() {
+    return this.controlContainer.control?.get(this.formControlName);
+  }
+
+  isFormDirty() {
+    return (this.formControl?.touched || this.formControl?.dirty) ?? false;
+  }
+
+  isFormInvalid() {
+    return this.formControl?.invalid ?? false;
+  }
+
+  isFormValid() {
+    return this.formControl?.value ? this.formControl?.valid ?? false : false;
+  }
+
+  shouldShowError(): boolean {
+    return this.isFormDirty() && this.isFormInvalid();
+  }
+
+  get errors() {
+    console.log({ here: '' });
+    return this.formControl?.errors;
   }
 }

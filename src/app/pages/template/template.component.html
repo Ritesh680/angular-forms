@@ -1,12 +1,14 @@
-<form class="d-flex flex-column" [formGroup]="form">
+<form class="d-flex flex-column" [formGroup]="form" (submit)="onSubmit()">
   <app-card>
     <div>
       <span class="text-success fs-4">Select Module</span>
 
       <app-select
         [options]="modules"
-        [formControlName]="'module'"
+        formControlName="module"
         extraStyles="col-sm-4"
+        [defaultValue]="moduleName"
+        [disabled]="true"
       ></app-select>
     </div>
     <div formArrayName="sections" class="d-flex flex-column gap-4">
@@ -68,6 +70,7 @@
               <app-editable-table
                 [tableHeaders]="fieldsTableHeaders"
                 [section]="section"
+                sectionName="sections"
                 name="fields"
                 [isNested]="true"
               ></app-editable-table>
@@ -85,18 +88,16 @@
       ></app-button>
     </div>
   </app-card>
+  <div class="steppers">
+    <nav class="steppers-nav">
+      <app-button
+        type="submit"
+        intent="primaryOutline"
+        label="Submit"
+        size="medium"
+        class=""
+      >
+      </app-button>
+    </nav>
+  </div>
 </form>
-
-<div class="steppers">
-  <nav class="steppers-nav">
-    <app-button
-      type="button"
-      intent="primaryOutline"
-      label="Submit"
-      size="medium"
-      class=""
-      (buttonClick)="onSubmit()"
-    >
-    </app-button>
-  </nav>
-</div>
