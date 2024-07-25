@@ -1,6 +1,11 @@
 <div class="form-group" [ngClass]="extraClasses">
   <div class="input-group">
-    <app-label *ngIf="label" [label]="label" [htmlFor]="id"></app-label>
+    <app-label
+      *ngIf="label"
+      [label]="label"
+      [htmlFor]="id"
+      [extraStyles]="value ? 'active' : ''"
+    ></app-label>
     <input
       type="text"
       [id]="id"

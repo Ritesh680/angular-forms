@@ -88,7 +88,6 @@ export class SelectComponent implements ControlValueAccessor, OnInit {
 
   get errors() {
     const control = this.controlContainer.control?.get(this.formControlName);
-    console.log({ here: '' });
     return control?.errors;
   }
 

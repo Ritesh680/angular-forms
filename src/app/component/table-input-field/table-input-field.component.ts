@@ -75,7 +75,6 @@ export class TableInputFieldComponent implements ControlValueAccessor {
   }
 
   get errors() {
-    console.log({ here: '' });
     return this.formControl?.errors;
   }
 }

@@ -1,0 +1,40 @@
+<div class="row align-items-start">
+  <div class="sticky-top col-lg-3">
+    <app-sidebar [sidebar]="sidebarItems" />
+  </div>
+
+  <form class="col-lg-9 px-4" [formGroup]="form">
+    <app-callout type="warning" title="ATTENZIONE">
+      <p>Ci sono alcune informazioni mancanti o errate</p>
+      <div class="it-list-wrapper">
+        <ul class="it-list">
+          <li>
+            <a href="#" class="text-primary"> Altro genitore </a>
+          </li>
+          <li>
+            <a href="#" class="text-primary"> ISEE </a>
+          </li>
+        </ul>
+      </div>
+    </app-callout>
+    @for(items of module?.sections;track items){
+    <div class="it-page-sections-container mt-4">
+      <section class="it-page-section" id="{{ items.id }}">
+        <app-card>
+          <div class="card-header border-0">
+            <h2 class="mb-1">{{ items.title }}</h2>
+            <p class="mb-0">{{ items.description }}</p>
+          </div>
+          <div class="card-body">
+            <app-inputfield
+              *ngFor="let item of module?.sections?.[0]?.fields"
+              [formControlName]="item.name"
+              [label]="item.title"
+            />
+          </div>
+        </app-card>
+      </section>
+    </div>
+    }
+  </form>
+</div>

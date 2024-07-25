@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import "bootstrap-italia/dist/css/bootstrap-italia.min.css";
+$primary-h: 160;
+$primary-s: 100;
+$primary-b: 48;
+@import "bootstrap-italia/src/scss/bootstrap-italia.scss";
 @import "@ng-select/ng-select/themes/default.theme.css";
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+
+* {
+  font-family: "Titillium Web", sans-serif;
+}
 
 body {
   padding: 8px;

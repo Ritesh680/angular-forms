@@ -1,0 +1,105 @@
+<div class="row align-items-start">
+  <div class="sticky-top col-lg-3">
+    <app-sidebar [sidebar]="sidebarItems" />
+  </div>
+
+  <div class="col-lg-9">
+    <app-callout type="warning" title="ATTENZIONE">
+      <p>Ci sono alcune informazioni mancanti o errate</p>
+      <div class="it-list-wrapper">
+        <ul class="it-list">
+          <li>
+            <a href="#" class="text-primary"> Altro genitore </a>
+          </li>
+          <li>
+            <a href="#" class="text-primary"> ISEE </a>
+          </li>
+        </ul>
+      </div>
+    </app-callout>
+    @for(items of module?.sections;track items){
+
+    <div class="it-page-sections-container mt-4">
+      <section class="it-page-section" id="{{ items.id }}">
+        <div>
+          <app-card [backgroundColor]="'neutral-1-bg-a1'">
+            <div class="card-header border-0">
+              <h2 class="mb-1">{{ items.title }}</h2>
+              <p class="mb-0">{{ items.description }}</p>
+            </div>
+            <div class="card-body">
+              <app-card>
+                <div>
+                  <h3 class="mb-0">Accordion Header</h3>
+
+                  <p class="card-info mt-4">
+                    Tax Code
+                    <br />
+                    <span class="fw-bold">GLABNC72H25H501Y</span>
+                  </p>
+                </div>
+
+                <app-accordion [accordionId]="'accordion' + items.id">
+                  <section
+                    *ngFor="let section of items.subsections"
+                    class="mt-4"
+                  >
+                    <div class="border px-4 pb-4">
+                      <div class="border-bottom d-flex">
+                        <span
+                          class="px-0 col-auto me-auto my-auto fs-3 fw-semibold"
+                          >{{ section.title }}</span
+                        >
+                        <app-button
+                          (buttonClick)="
+                            setModalDetails({
+                              id: section.name,
+                              label: section.title
+                            })
+                          "
+                          label="Modifica"
+                          class="col-auto"
+                          [size]="'medium'"
+                          intent="link"
+                        ></app-button>
+                      </div>
+                      <ng-container *ngFor="let data of items.fields">
+                        <app-keyvalue
+                          key="{{ data.title }}"
+                          value="{{ getValueById(data.name) }}"
+                          [errorMessage]="getError(data.name)"
+                          *ngIf="data.subsection?.name === section.name"
+                        />
+                      </ng-container>
+                    </div>
+                  </section>
+                </app-accordion>
+              </app-card>
+            </div>
+          </app-card>
+        </div>
+      </section>
+    </div>
+    }
+  </div>
+</div>
+
+<ng-container *appTabContent="!!modalDetails?.id">
+  <app-modal
+    [isVisible]="!!modalDetails?.id"
+    [modalId]="modalDetails?.id ?? ''"
+    [modalHeader]="modalDetails?.label ?? ''"
+    (cancel)="cancelModal()"
+    (confirm)="confirmForm()"
+  >
+    <form [formGroup]="form">
+      <ng-container *ngFor="let item of module?.sections?.[0]?.fields">
+        <app-inputfield
+          [formControlName]="item.name"
+          [label]="item.title"
+          *ngIf="item.subsection?.name === modalDetails?.id"
+        />
+      </ng-container>
+    </form>
+  </app-modal>
+</ng-container>

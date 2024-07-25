@@ -1,14 +1,43 @@
-<!-- <app-template moduleName="general"></app-template> -->
-
-<app-tabs>
-  <app-tab tabTitle="General">
-    <app-tab-content>
-      <app-template moduleName="general"></app-template>
-    </app-tab-content>
-  </app-tab>
-  <app-tab tabTitle="Preference">
-    <app-tab-content>
-      <app-template moduleName="preference"></app-template>
-    </app-tab-content>
-  </app-tab>
-</app-tabs>
+<app-stepper (handleTabChange)="handleTabChange($event)">
+  <app-stepper-header
+    title="Privacy"
+    [active]="isActive('privacy')"
+    [isCompleted]="true"
+  >
+    <app-stepper-content *appTabContent="isActive('privacy')">
+      <app-privacy />
+    </app-stepper-content>
+  </app-stepper-header>
+  <app-stepper-header
+    title="General"
+    [active]="isActive('general')"
+    [showFooter]="true"
+    footerClass="col-lg-9 ms-auto"
+  >
+    <app-stepper-content *appTabContent="isActive('general')">
+      <app-general [module]="modules[1]" *appLoader="modules[1]" />
+    </app-stepper-content>
+  </app-stepper-header>
+  <app-stepper-header
+    title="Preferences"
+    [active]="isActive('preferences')"
+    [showFooter]="true"
+    footerClass="col-lg-9 ms-auto"
+  >
+    <app-stepper-content *appTabContent="isActive('preferences')">
+      <app-preferences
+        [module]="modules[2]"
+        *appLoader="modules[2]"
+      ></app-preferences>
+    </app-stepper-content>
+  </app-stepper-header>
+  <app-stepper-header
+    title="Summary"
+    [active]="isActive('summary')"
+    [showFooter]="true"
+  >
+    <app-stepper-content *appTabContent="isActive('summary')">
+      <p>This is Summary section</p>
+    </app-stepper-content>
+  </app-stepper-header>
+</app-stepper>

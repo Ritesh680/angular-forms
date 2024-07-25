@@ -1,0 +1,10 @@
+<div class="single-line-info border-light">
+  <div class="text-paragraph-small">{{ key }}</div>
+  <div class="border-light">
+    <p class="data-text">{{ value }}</p>
+  </div>
+
+  <div *ngIf="hasError()">
+    <p class="text-danger form-feedback mx-0">{{ getErrorMessage() }}</p>
+  </div>
+</div>

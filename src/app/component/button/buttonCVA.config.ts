@@ -13,6 +13,7 @@ export const buttonClasses = cva('btn text-nowrap', {
       dangerOutline: 'btn-outline-danger',
       success: 'btn-success',
       secondaryOutline: 'btn-outline-secondary',
+      link: 'btn-link text-primary px-0',
     },
     size: {
       small: 'fs-6 px-2 padding-sm',

@@ -50,6 +50,7 @@ export class InputfieldComponent implements ControlValueAccessor {
     const myInput = document.getElementById(this.id);
     const label = document.getElementById(getLabelId(this.id));
     label?.classList.add('active');
+
     if (myInput) myInput.classList.add('active');
   }
 
@@ -101,7 +102,6 @@ export class InputfieldComponent implements ControlValueAccessor {
   }
 
   get errors() {
-    console.log({ here: '' });
     return this.formControl?.errors;
   }
 }

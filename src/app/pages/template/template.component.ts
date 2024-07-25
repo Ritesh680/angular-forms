@@ -91,7 +91,6 @@ export class TemplateComponent implements OnInit {
   }
 
   get moduleArray() {
-    console.log({ this: this.form.get('modules') });
     return this.form.get('modules') as FormArray;
   }
 
@@ -131,7 +130,6 @@ export class TemplateComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    console.log({ module: this.form.value });
   }
 
   addModule() {

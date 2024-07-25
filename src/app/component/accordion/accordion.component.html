@@ -1,0 +1,31 @@
+<div class="accordion border-bottom-0 p-0" id="collapseExample">
+  <div class="accordion-item p-0">
+    <h2 class="accordion-header border-top" id="heading1c">
+      <button
+        class="pb-0 px-0 text-primary fw-light fs-6 btn btn-link p-0"
+        type="button"
+        data-bs-toggle="collapse"
+        [attr.data-bs-target]="'#' + accordionId"
+        aria-expanded="true"
+        aria-controls="collapse1c"
+      >
+        <span class="d-flex align-items-center">
+          Monstra Tutto
+          <svg class="icon icon-primary icon-sm">
+            <use href="/bootstrap-italia/dist/svg/sprites.svg#it-expand" />
+          </svg>
+        </span>
+      </button>
+    </h2>
+    <div
+      id="{{ accordionId }}"
+      class="accordion-collapse collapse"
+      role="region"
+      aria-labelledby="heading1c"
+    >
+      <div class="accordion-body px-0 pb-0">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

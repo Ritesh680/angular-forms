@@ -18,9 +18,19 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
-            "scripts": []
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "sprites.svg",
+                "input": "node_modules/bootstrap-italia/dist/svg",
+                "output": "/bootstrap-italia/dist/svg"
+              }
+            ],
+            "styles": ["src/styles.scss"],
+            "scripts": [
+              "node_modules/bootstrap-italia/dist/js/bootstrap-italia.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -56,7 +66,10 @@
               "buildTarget": "comuni-templates-upload:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 5173
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -70,7 +83,7 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },

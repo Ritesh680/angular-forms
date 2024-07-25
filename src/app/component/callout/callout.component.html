@@ -1,0 +1,23 @@
+<div class="callout callout-highlight" [ngClass]="calloutType">
+  <div class="callout-title">
+    <svg class="icon">
+      <use
+        *ngIf="calloutType === 'warning'"
+        href="/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+      ></use>
+      <use
+        *ngIf="calloutType === 'success'"
+        href="/bootstrap-italia/dist/svg/sprites.svg#it-check-circle"
+      ></use>
+      <use
+        *ngIf="calloutType === 'danger'"
+        href="/bootstrap-italia/dist/svg/sprites.svg#it-close-circle"
+      ></use>
+      <use
+        *ngIf="calloutType === 'note'"
+        href="/bootstrap-italia/dist/svg/sprites.svg#it-info-circle"
+      ></use></svg
+    >{{ title }}
+  </div>
+  <ng-content> </ng-content>
+</div>

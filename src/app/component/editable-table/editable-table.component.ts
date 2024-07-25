@@ -183,7 +183,6 @@ export class EditableTableComponent implements OnInit, OnDestroy {
 
     if (this.isNested) {
       const sectionsArray = this.tableForm.get(this.sectionName) as FormArray;
-      console.log({ sectionsArray });
 
       if (sectionsArray) {
         const sectionIndex = sectionsArray.controls.findIndex(

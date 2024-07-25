@@ -1,0 +1,29 @@
+<nav class="steppers-nav">
+  <button
+    type="button"
+    class="btn btn-outline-primary btn-sm steppers-btn-prev"
+    (click)="handlePrev($event)"
+  >
+    <svg class="icon icon-primary">
+      <use
+        href="/bootstrap-italia/dist/svg/sprites.svg#it-chevron-left"
+      ></use></svg
+    >Indietro
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary btn-sm steppers-btn-save"
+    (click)="handleSave($event)"
+  >
+    Salva
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-primary btn-sm steppers-btn-next"
+    (click)="handleNext($event)"
+  >
+    Avanti<svg class="icon icon-primary">
+      <use href="/bootstrap-italia/dist/svg/sprites.svg#it-chevron-right"></use>
+    </svg>
+  </button>
+</nav>
